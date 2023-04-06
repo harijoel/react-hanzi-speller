@@ -31,14 +31,29 @@ function getWord() {
   return hsk3.words[Math.floor(Math.random() * hsk3.words.length)]
 }
 
+type HanziPinyin = {
+  hanzi: string,
+  pinyinRoman: string,
+  pinyin: string
+} 
 function getWordArray(wordHanzi: string, wordPinyin: string, wordPinyinNubmered: string){
+  let objectArray: HanziPinyin[] = []
+
   const wordHanziArray = wordHanzi.split('')
   const wordPinyinRomanArray = wordPinyinNubmered.split(/\d+/).filter(Boolean)
   const WordSylableNumber = wordHanzi.length
-  const wordPinyinArray = []
-
-  
-  return [wordHanziArray]
+  let index_start = 0
+  for (let index = 0; index < WordSylableNumber; index++) {
+    objectArray = [...objectArray, {hanzi: wordHanzi[index], 
+                                    pinyinRoman: wordPinyinRomanArray[index], 
+                                    pinyin: wordPinyin.slice(index_start, 
+                                    index_start + wordPinyinRomanArray[index].length)
+                                    }
+                  ]
+                    
+    index_start = index_start + wordPinyinRomanArray[index].length
+  }
+  return objectArray
 }
 
 function App() {
@@ -47,16 +62,14 @@ function App() {
   const wordPinyinRomanArray = ["zhong", "wen"]
   const wordPinyinArray = ["zhōng", "wén"]
   
-  const wordObj = [{hanzi: "中", pinyinRoman: "zhong", pinyin: "zhōng"}, {hanzi: "文", pinyinRoman: "wen", pinyin: "wén"}]
+  //const wordObj: HanziPinyin[] = [{hanzi: "中", pinyinRoman: "zhong", pinyin: "zhōng"}, {hanzi: "文", pinyinRoman: "wen", pinyin: "wén"}]
+  const wordObj: HanziPinyin[] = getWordArray(wordToGuess["translation-data"].simplified,
+                                              wordToGuess["translation-data"].pinyin,
+                                              wordToGuess["translation-data"]["pinyin-numbered"]
+                                              )
+  console.log(wordObj)
 
-  const [index, setIndex] = useState(0)
-  const [cardIndex, setCardIndex] = useState(0)
-  const [mistakeCount, setMistakeCount] = useState(0)
   const [inputKeys, setInputKeys] = useState<string[]>([])
-
-  const hanzi = wordHanziArray[cardIndex]
-  const pinyin = wordPinyinArray[cardIndex]
-  const pinyin_roman = wordPinyinRomanArray[cardIndex]
 
   const addInputKeys = useCallback(
     (letter: string) => {
@@ -97,6 +110,7 @@ function App() {
                                   pinyin={syl.pinyin} 
                                   pinyin_roman={syl.pinyinRoman}
                                   input={hanziArrayInput[i]}
+                                  active={hanziArrayInput.length - 1 === i}
                                 />
                   )
       }

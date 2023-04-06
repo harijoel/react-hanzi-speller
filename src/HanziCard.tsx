@@ -6,9 +6,10 @@ type HanziCardProps = {
     pinyin: string,
     pinyin_roman: string
     input?: string
+    active: boolean
 }
 
-export default function HanziCard({ hanzi, pinyin, pinyin_roman, input = "" }: HanziCardProps) {
+export default function HanziCard({ hanzi, pinyin, pinyin_roman, input = "", active }: HanziCardProps) {
     
     // to be defined
     let mistakeCount = 0
@@ -32,6 +33,7 @@ export default function HanziCard({ hanzi, pinyin, pinyin_roman, input = "" }: H
     }
     return (
         <div className='box' style={{border: `3px solid ${status}`}} >
+            {active && <div>*</div> }
             <div style={{ fontSize: "2em", color: hanziColor }}>{ hanzi }</div>
             <PinyinSpeller pinyin={pinyin} index={index} reveal={isLoser} />
         </div>
