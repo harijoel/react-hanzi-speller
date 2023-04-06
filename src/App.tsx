@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
+import ChineseWord from "./ChineseWord";
 import HanziCard from "./HanziCard"
 import hsk3 from "./hsk-3.json" 
 
@@ -76,7 +77,7 @@ function App() {
       setInputKeys(currentKeys => [...currentKeys, letter])
       console.log(inputKeys)
     },
-    [wordToGuess, inputKeys]
+    [inputKeys]
   )
 
   const hanziArrayInput = useMemo(() => {
@@ -98,12 +99,30 @@ function App() {
     return () => {
       document.removeEventListener("keypress", handler)
     }
-  }, [wordToGuess, inputKeys])
+  }, [inputKeys])
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key
+      if (key != "Enter") return
+
+      e.preventDefault
+      setInputKeys([])
+      setWordToGuess(getWord())
+    }
+
+    document.addEventListener("keypress", handler)
+
+    return () => {
+      document.removeEventListener("keypress", handler)
+    }
+  }, [inputKeys])
 
   
   return (
-    <div className="Container" style={{ fontSize: "2rem", textAlign: "center" }}>
+    <div className="Container" style={{ display: "flex", fontSize: "2rem", textAlign: "center" }}>
       <h1>Nihao shijie</h1>
+      <ChineseWord />
       {wordObj.map( (syl, i) => <HanziCard 
                                   key={i} 
                                   hanzi={syl.hanzi} 
