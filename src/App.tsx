@@ -76,12 +76,12 @@ function App() {
       setInputKeys(currentKeys => [...currentKeys, letter])
       console.log(inputKeys)
     },
-    [inputKeys]
+    [wordToGuess, inputKeys]
   )
 
   const hanziArrayInput = useMemo(() => {
-    return findSubstrings(wordPinyinRomanArray, inputKeys)
-  }, [inputKeys])
+    return findSubstrings(wordObj.map(syl => syl.pinyinRoman), inputKeys)
+  }, [wordToGuess, inputKeys])
   console.log(hanziArrayInput)
 
   useEffect(() => {
@@ -98,7 +98,7 @@ function App() {
     return () => {
       document.removeEventListener("keypress", handler)
     }
-  }, [inputKeys])
+  }, [wordToGuess, inputKeys])
 
   
   return (
