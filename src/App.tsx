@@ -26,10 +26,7 @@ function App() {
 
   const [index, setIndex] = useState(0)
   const [cardIndex, setCardIndex] = useState(0)
-  console.log(wordToGuess)
-
   const [mistakeCount, setMistakeCount] = useState(0)
-  console.log(mistakeCount)
 
   const hanzi = wordHanziArray[cardIndex]
   const pinyin = wordPinyinArray[cardIndex]
@@ -38,8 +35,13 @@ function App() {
 
   const addSpelledLetter = useCallback(
     (letter: string) => {
+      console.log(cardIndex)
       if (letter === pinyin_roman[index]) {
         setIndex(oldIndex => oldIndex + 1)
+        if (index === wordObj[cardIndex].pinyin.length - 1) {
+          setCardIndex(oldIndex => oldIndex + 1)
+          console.log('****')
+        }
       }
       else {
         setMistakeCount(oldCount => oldCount + 1)
