@@ -4,14 +4,25 @@ import PinyinSpeller from './PinyinSpeller'
 type HanziCardProps = {
     hanzi: string,
     pinyin: string,
-    pinyin_roman: string,
-    index: number,
-    mistakeCount: number
+    pinyin_roman: string
+    input?: string
 }
 
-export default function HanziCard({ hanzi, pinyin, pinyin_roman, index, mistakeCount }: HanziCardProps) {
+export default function HanziCard({ hanzi, pinyin, pinyin_roman, input = "" }: HanziCardProps) {
     
-
+    // to be defined
+    let mistakeCount = 0
+    let index = 0
+    for (let i = 0; i < input.length; i++) {
+        let c = input[i];
+        if (input[i] === pinyin_roman[index]) {
+            index = index + 1
+        }
+        else {
+            mistakeCount = mistakeCount + 1
+        }
+        
+    }
     
     let status = mistakeCount ? "red" : "black"
     const isLoser = mistakeCount >= 2
