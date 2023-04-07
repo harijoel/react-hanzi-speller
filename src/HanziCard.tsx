@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import PinyinSpeller from './PinyinSpeller'
 
 type HanziCardProps = {
-    hanzi: string,
-    pinyin: string,
+    hanzi: string
+    pinyin: string
     pinyin_roman: string
     input?: string
     active: boolean
+    mistakeTolerance: number
 }
 
-export default function HanziCard({ hanzi, pinyin, pinyin_roman, input = "", active }: HanziCardProps) {
+export default function HanziCard({ hanzi, pinyin, pinyin_roman, input = "", active, mistakeTolerance }: HanziCardProps) {
     
     // to be defined
     let mistakeCount = 0
@@ -26,7 +27,7 @@ export default function HanziCard({ hanzi, pinyin, pinyin_roman, input = "", act
     }
     
     let status = mistakeCount ? "red" : "black"
-    const isLoser = mistakeCount >= 2
+    const isLoser = mistakeCount >= mistakeTolerance + 1
     const hanziColor = isLoser? "red" : "black"
     if (isLoser || index === pinyin.length) {
         status = "black"

@@ -1,8 +1,8 @@
 import React from 'react'
 
 type PinyinSpellerProps = {
-    pinyin: string,
-    index: number,
+    pinyin: string
+    index: number
     reveal: boolean
 }
 
