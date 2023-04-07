@@ -30,7 +30,7 @@ function App() {
                                                             ],
                                               wordToGuess["translation-data"].pinyin,
                                               wordToGuess["translation-data"]["pinyin-numbered"],
-                                              "noTones"
+                                              "withTones"
                                               )
   console.log(wordObj)
 
@@ -53,7 +53,7 @@ function App() {
     const handler = (e: KeyboardEvent) => {
       const key = e.key
 
-      if (!key.match(/^[a-z]$/)) return
+      if (!key.match(/^[a-z0-9]$/)) return
 
       e.preventDefault
       addInputKeys(key)

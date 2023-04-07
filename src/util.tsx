@@ -5,25 +5,41 @@ export type HanziPinyin = {
   } 
 export function getWordArray(wordHanzi: string, wordPinyin: string, wordPinyinNubmered: string, mode: string){
     let objectArray: HanziPinyin[] = []
-    // Cleaning process: remove spaces, remove ' mark, everything to lowercase
+    // Cleaning process: remove spaces, remove " ' " mark, everything to lowercase
     const wordPinyinNubmered_clean = wordPinyinNubmered.replace(/[\s']/g, "").toLowerCase()
     const wordPinyin_clean = wordPinyin.replace(/[\s']/g, "").toLowerCase()
 
-    // Separate string by number. Ex: "zhog1wen2" => ["zhong", "wen"]
-    const wordPinyinRomanArray = wordPinyinNubmered_clean.split(/\d+/).filter(Boolean)
+    // Separate string by number. Ex: "zhong1wen2" => ["zhong", "wen"]
+    let wordPinyinRomanArray: any = wordPinyinNubmered_clean.split(/\d+/).filter(Boolean)
 
     // Use previous no number array sylable lenghts to separate accented string
     // Ex. "zhōngwén" => ["zhōng", "wén"]
     const WordSylableNumber = wordHanzi.length
     let index_start = 0
+    let wordPinyinArray: string[] = []
+    for (let index = 0; index < WordSylableNumber; index++) {
+      wordPinyinArray = [...wordPinyinArray, 
+                              wordPinyin_clean.slice(index_start, 
+                              index_start + wordPinyinRomanArray[index].length)
+                        ]
+      index_start = index_start + wordPinyinRomanArray[index].length
+    }
+
+    // Separate string by number. Ex: "zhong1wen2" => ["zhong1", "wen2"]
+    // Had to define wordPinyinRomanArray as type any because match could throw...
+    // ...null if nothing matches
+    if (mode === "withTones") {
+      wordPinyinRomanArray = wordPinyinNubmered_clean.match(/[a-zA-Z]+\d+/g)
+    }
+
+    // Make each of the elements in the 3 arrays into objects
+    // Array of objects
     for (let index = 0; index < WordSylableNumber; index++) {
       objectArray = [...objectArray, {hanzi: wordHanzi[index], 
                                       pinyinRoman: wordPinyinRomanArray[index], 
-                                      pinyin: wordPinyin_clean.slice(index_start, 
-                                      index_start + wordPinyinRomanArray[index].length)
+                                      pinyin: wordPinyinArray[index]
                                       }
                     ]
-      index_start = index_start + wordPinyinRomanArray[index].length
     }
     
     return objectArray
