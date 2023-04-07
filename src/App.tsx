@@ -29,7 +29,8 @@ function App() {
                                                               : "simplified"
                                                             ],
                                               wordToGuess["translation-data"].pinyin,
-                                              wordToGuess["translation-data"]["pinyin-numbered"]
+                                              wordToGuess["translation-data"]["pinyin-numbered"],
+                                              "noTones"
                                               )
   console.log(wordObj)
 

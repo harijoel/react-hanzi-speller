@@ -3,13 +3,17 @@ export type HanziPinyin = {
     pinyinRoman: string
     pinyin: string
   } 
-export function getWordArray(wordHanzi: string, wordPinyin: string, wordPinyinNubmered: string){
+export function getWordArray(wordHanzi: string, wordPinyin: string, wordPinyinNubmered: string, mode: string){
     let objectArray: HanziPinyin[] = []
-    //Cleaning process
+    // Cleaning process: remove spaces, remove ' mark, everything to lowercase
     const wordPinyinNubmered_clean = wordPinyinNubmered.replace(/[\s']/g, "").toLowerCase()
     const wordPinyin_clean = wordPinyin.replace(/[\s']/g, "").toLowerCase()
 
+    // Separate string by number. Ex: "zhog1wen2" => ["zhong", "wen"]
     const wordPinyinRomanArray = wordPinyinNubmered_clean.split(/\d+/).filter(Boolean)
+
+    // Use previous no number array sylable lenghts to separate accented string
+    // Ex. "zhōngwén" => ["zhōng", "wén"]
     const WordSylableNumber = wordHanzi.length
     let index_start = 0
     for (let index = 0; index < WordSylableNumber; index++) {
@@ -19,9 +23,9 @@ export function getWordArray(wordHanzi: string, wordPinyin: string, wordPinyinNu
                                       index_start + wordPinyinRomanArray[index].length)
                                       }
                     ]
-                      
       index_start = index_start + wordPinyinRomanArray[index].length
     }
+    
     return objectArray
   }
 
