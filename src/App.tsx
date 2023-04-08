@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import ChineseWord from "./ChineseWord";
-import HanziCard from "./HanziCard"
 import hsk3 from "./hsk-3.json" 
 import { findSubstrings, getWordArray, HanziPinyin } from "./util";
 
@@ -14,7 +13,7 @@ function App() {
   const [inputKeys, setInputKeys] = useState<string[]>([])
   const mistakeTolerance = 1
   const traditional = true
-  const playMode = "noTones"
+  const playMode = "withTones"
   const activeCardIndex = 0
   
   const wordObj: HanziPinyin[] = getWordArray(wordToGuess["translation-data"]
@@ -65,12 +64,13 @@ function App() {
       if (key != "Enter") return
 
       e.preventDefault
+      // Start new word
       if (correctTotal === wordObj.map(syl => syl.pinyinRoman).join('').length) {
         setInputKeys([])
         setWordToGuess(getWord())
       }
       else {
-        // Add two wrong letters
+        // Add n ammount to lose of wrong letters, 8 is a character that is alway wrong
         const wrongLetter = '8'.repeat(mistakeTolerance + 1)
         setInputKeys(currentKeys => [...currentKeys, wrongLetter, wrongLetter])
       }
