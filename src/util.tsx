@@ -3,14 +3,15 @@ export type HanziPinyin = {
     pinyinRoman: string
     pinyin: string
   } 
-export function getWordArray(wordHanzi: string, wordPinyin: string, wordPinyinNubmered: string, mode: string){
+export function getWordArray(wordHanzi: string, wordPinyin: string, wordPinyinNubmered: string, playMode: string){
     let objectArray: HanziPinyin[] = []
     // Cleaning process: remove spaces, remove " ' " mark, everything to lowercase
     const wordPinyinNubmered_clean = wordPinyinNubmered.replace(/[\s']/g, "").toLowerCase()
     const wordPinyin_clean = wordPinyin.replace(/[\s']/g, "").toLowerCase()
 
     // Separate string by number. Ex: "zhong1wen2" => ["zhong", "wen"]
-    let wordPinyinRomanArray: any = wordPinyinNubmered_clean.split(/\d+/).filter(Boolean)
+    let wordPinyinRomanArray: string[] | null = wordPinyinNubmered_clean.split(/\d+/).filter(Boolean)
+                                    
 
     // Use previous no number array sylable lenghts to separate accented string
     // Ex. "zhōngwén" => ["zhōng", "wén"]
@@ -27,9 +28,14 @@ export function getWordArray(wordHanzi: string, wordPinyin: string, wordPinyinNu
 
     // Separate string by number. Ex: "zhong1wen2" => ["zhong1", "wen2"]
     // Had to define wordPinyinRomanArray as type any because match could throw...
-    // ...null if nothing matches
-    if (mode === "withTones") {
+    // ...null if nothing matches, so []
+    if (playMode === "withTones") {
       wordPinyinRomanArray = wordPinyinNubmered_clean.match(/[a-zA-Z]+\d+/g)
+                              || [wordPinyinNubmered_clean]
+    }
+    if (playMode === "onlyTones") {
+      wordPinyinRomanArray = wordPinyinNubmered_clean.match(/\d+/g)
+                              || [wordPinyinNubmered_clean]
     }
 
     // Make each of the elements in the 3 arrays into objects

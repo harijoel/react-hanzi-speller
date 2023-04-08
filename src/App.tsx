@@ -14,6 +14,7 @@ function App() {
   const [inputKeys, setInputKeys] = useState<string[]>([])
   const mistakeTolerance = 1
   const traditional = true
+  const playMode = "onlyTones"
 
   const wordHanziArray = ["中", "文"]
   const wordPinyinRomanArray = ["zhong", "wen"]
@@ -30,7 +31,7 @@ function App() {
                                                             ],
                                               wordToGuess["translation-data"].pinyin,
                                               wordToGuess["translation-data"]["pinyin-numbered"],
-                                              "withTones"
+                                              playMode
                                               )
   console.log(wordObj)
 
@@ -95,10 +96,11 @@ function App() {
                                   key={i} 
                                   hanzi={syl.hanzi} 
                                   pinyin={syl.pinyin} 
-                                  pinyin_roman={syl.pinyinRoman}
+                                  pinyinRoman={syl.pinyinRoman}
                                   input={hanziArrayInput[i]}
                                   active={hanziArrayInput.length - 1 === i} 
                                   mistakeTolerance={mistakeTolerance}
+                                  playMode={playMode}
                                 />
                   )
       }

@@ -1,11 +1,12 @@
 import React from 'react'
+import { HanziPinyin } from './util'
 
 type ChineseWordProps = {
-    wordData: any
-    keyInput: string[]
+    hanziPinyinArrayWord: HanziPinyin[]
+    pinyinArrayInput: string[]
     traditional: boolean
     mistakeTolerance: number
-    mode: string
+    playMode: string
 }
 
 export default function ChineseWord({}) {
