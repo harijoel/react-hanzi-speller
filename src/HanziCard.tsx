@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 import PinyinSpeller from './PinyinSpeller'
+import { HanziPinyin } from './util'
 
 type HanziCardProps = {
-    hanzi: string
-    pinyin: string
-    pinyinRoman: string
+    hanziPinyinChar: HanziPinyin
     input?: string
     active: boolean
     mistakeTolerance: number
     playMode: string
 }
 
-export default function HanziCard({ hanzi, pinyin, pinyinRoman, input = "", active, mistakeTolerance, playMode }: HanziCardProps) {
-    
+export default function HanziCard({ hanziPinyinChar, input = "", active, mistakeTolerance, playMode }: HanziCardProps) {
+    const hanzi = hanziPinyinChar.hanzi
+    const pinyin = hanziPinyinChar.pinyin
+    const pinyinRoman = hanziPinyinChar.pinyinRoman
+
     // to be defined
     let mistakeCount = 0
     let index = 0

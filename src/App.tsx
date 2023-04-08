@@ -14,16 +14,9 @@ function App() {
   const [inputKeys, setInputKeys] = useState<string[]>([])
   const mistakeTolerance = 1
   const traditional = true
-  const playMode = "onlyTones"
-
-  const wordHanziArray = ["中", "文"]
-  const wordPinyinRomanArray = ["zhong", "wen"]
-  const wordPinyinArray = ["zhōng", "wén"]
+  const playMode = "noTones"
+  const activeCardIndex = 0
   
-  // const wordObj: HanziPinyin[] = [{hanzi: "中", 
-  //                                 pinyinRoman: "zhong", pinyin: "zhōng"}, 
-  //                                 {hanzi: "文", pinyinRoman: "wen", pinyin: "wén"}
-  //                                ]
   const wordObj: HanziPinyin[] = getWordArray(wordToGuess["translation-data"]
                                                             [traditional
                                                               ? "traditional"
@@ -34,8 +27,6 @@ function App() {
                                               playMode
                                               )
   console.log(wordObj)
-
-  
 
   const addInputKeys = useCallback(
     (letter: string) => {
@@ -91,19 +82,13 @@ function App() {
   return (
     <div className="Container" style={{ display: "flex", fontSize: "2rem", textAlign: "center" }}>
       <h1>Nihao shijie</h1>
-      <ChineseWord />
-      {wordObj.map( (syl, i) => <HanziCard 
-                                  key={i} 
-                                  hanzi={syl.hanzi} 
-                                  pinyin={syl.pinyin} 
-                                  pinyinRoman={syl.pinyinRoman}
-                                  input={hanziArrayInput[i]}
-                                  active={hanziArrayInput.length - 1 === i} 
-                                  mistakeTolerance={mistakeTolerance}
-                                  playMode={playMode}
-                                />
-                  )
-      }
+      <ChineseWord 
+        hanziPinyinArrayWord={wordObj} 
+        pinyinArrayInput={hanziArrayInput} 
+        traditional={traditional} 
+        mistakeTolerance={mistakeTolerance}
+        playMode={playMode}
+      />
     </div>
   )
 }
