@@ -51,7 +51,7 @@ export function getWordArray(wordHanzi: string, wordPinyin: string, wordPinyinNu
     return objectArray
   }
 
-export  function findSubstrings(lst: string[], word: string[]): string[] {
+export  function findSubstrings(lst: string[], word: string[]): [string[], number] {
     let ind_w = 0;
     let ind_l = 0;
     let c = 0; //Correct counter
@@ -63,6 +63,7 @@ export  function findSubstrings(lst: string[], word: string[]): string[] {
       if (word[ind_w] == slist[ind_l]) {
         ind_w = ind_w + 1;
         ind_l = ind_l + 1;
+        c = c + 1
       } else {
         ind_w = ind_w + 1;
       }
@@ -73,5 +74,5 @@ export  function findSubstrings(lst: string[], word: string[]): string[] {
         }
       }
     }
-    return sr.split('#');
+    return [sr.split('#'), c];
   }

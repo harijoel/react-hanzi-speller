@@ -36,10 +36,11 @@ function App() {
     [inputKeys]
   )
 
-  const hanziArrayInput = useMemo(() => {
+  const [hanziArrayInput, correctTotal] = useMemo(() => {
     return findSubstrings(wordObj.map(syl => syl.pinyinRoman), inputKeys)
   }, [inputKeys])
   console.log(hanziArrayInput)
+  console.log(correctTotal)
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -64,9 +65,14 @@ function App() {
       if (key != "Enter") return
 
       e.preventDefault
-      if (hanziArrayInput.length === wordObj.length) {
+      if (correctTotal === wordObj.map(syl => syl.pinyinRoman).join('').length) {
         setInputKeys([])
         setWordToGuess(getWord())
+      }
+      else {
+        // Add two wrong letters
+        const wrongLetter = '8'.repeat(mistakeTolerance + 1)
+        setInputKeys(currentKeys => [...currentKeys, wrongLetter, wrongLetter])
       }
       
     }
